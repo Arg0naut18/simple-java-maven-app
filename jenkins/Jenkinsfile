@@ -28,7 +28,7 @@ pipeline {
         }
         stage("Verdict") {
             steps {
-                echo "Job done successfully"
+                echo "Job done successfully!"
             }
         }
     }
