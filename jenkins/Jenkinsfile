@@ -1,34 +1,70 @@
+// pipeline {
+//     agent any
+//     stages {
+//         stage('Clean Up') {
+//             steps {
+//                 echo "Nothing to clean up!"
+//             }
+//         }
+//         stage('Build') {
+//             steps {
+//                 sh 'mvn -B -DskipTests clean package'
+//             }
+//         }
+//         stage('Test') {
+//             steps {
+//                 sh 'mvn test'
+//             }
+//             post {
+//                 always {
+//                     junit 'target/surefire-reports/*.xml'
+//                 }
+//             }
+//         }
+//         stage('Deliver') {
+//             steps {
+//                 sh './jenkins/scripts/deliver.sh'
+//             }
+//         }
+//         stage("Verdict") {
+//             steps {
+//                 echo "Job done successfully!"
+//             }
+//         }
+//     }
+// }
 pipeline {
     agent any
+
+    parameter {
+        string(defaultValue: "INT", description: "Select the deployment name", name: "deploymentName")
+        choice(choices: ["EU-WEST-2A", "EU-WEST-2B", "EU-TEST-2C"], description: "Select which AZ to deploy to", name: "selectAZ")
+        booleanParam(defaultValue: "false", description: "Confirm deployment?", name: "confirmDeployment")
+    }
+
+    environment {
+        def myNumber: 7
+    }
+
     stages {
-        stage('Clean Up') {
+        stage("Stage 0") {
             steps {
-                echo "Nothing to clean up!"
+                echo "My number is : ${myNumber}"
             }
         }
-        stage('Build') {
+        stage("Stage 1") {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                echo "Deployment name chosen: ${params.deploymentName}"
             }
         }
-        stage('Test') {
+        stage("Stage 2") {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                echo "AZ selected: ${params.selectAZ}"
             }
         }
-        stage('Deliver') {
+        stage("Stage 3") {
             steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
-        stage("Verdict") {
-            steps {
-                echo "Job done successfully!"
+                echo "Confirmation: ${params.confirmDeployment}"
             }
         }
     }
