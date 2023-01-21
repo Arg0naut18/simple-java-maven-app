@@ -36,14 +36,14 @@
 pipeline {
     agent any
 
-    parameter {
+    environment {
+        def myNumber = 7
+    }
+    
+    parameters {
         string(defaultValue: "INT", description: "Select the deployment name", name: "deploymentName")
         choice(choices: ["EU-WEST-2A", "EU-WEST-2B", "EU-TEST-2C"], description: "Select which AZ to deploy to", name: "selectAZ")
         booleanParam(defaultValue: "false", description: "Confirm deployment?", name: "confirmDeployment")
-    }
-
-    environment {
-        def myNumber = 7
     }
 
     stages {
