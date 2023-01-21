@@ -43,7 +43,7 @@ pipeline {
     }
 
     environment {
-        def myNumber: 7
+        def myNumber = 7
     }
 
     stages {
